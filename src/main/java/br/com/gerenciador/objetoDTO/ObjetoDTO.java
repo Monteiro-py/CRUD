@@ -1,6 +1,6 @@
 package br.com.gerenciador.objetoDTO;
 
-import br.com.gerenciador.Objeto;
+import br.com.gerenciador.model.Objeto;
 
 public record ObjetoDTO(Long id, String produto, String valor, String data) {
 

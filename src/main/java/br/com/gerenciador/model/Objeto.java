@@ -1,9 +1,7 @@
-package br.com.gerenciador;
+package br.com.gerenciador.model;
 
 import br.com.gerenciador.objetoDTO.ObjetoDTO;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,8 +21,10 @@ public class Objeto {
     private String produto;
     private String valor;
     private String data;
+    private Boolean ativo;
 
     public Objeto(ObjetoDTO objetoDTO) {
+        this.ativo=true;
         this.produto=objetoDTO.produto();
         this.valor= objetoDTO.valor();
         this.data= objetoDTO.data();
@@ -40,6 +40,10 @@ public class Objeto {
         if(this.data!=null){
             this.data=objetoDTO.data();
         }
+    }
+
+    public void exclusaoLogica(){
+        this.ativo=false;
     }
 
 

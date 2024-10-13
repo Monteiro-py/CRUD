@@ -1,8 +1,12 @@
-package br.com.gerenciador;
+package br.com.gerenciador.controller;
 
+import br.com.gerenciador.model.Objeto;
 import br.com.gerenciador.objetoDTO.ObjetoDTO;
 import br.com.gerenciador.service.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +28,20 @@ public class Controller {
     }
 
     @GetMapping
-    public List<ObjetoDTO> obterBancoDeDados(){
-       return repositorio.findAll().stream().map(ObjetoDTO::new).toList();
+    public Page<ObjetoDTO> obterBancoDeDados(Pageable page) {
+        var pages= repositorio.findAllByAtivoTrue(page).map(ObjetoDTO::new);
+        //return repositorio.findAll().stream().map(ObjetoDTO::new).toList();
+        return pages;
     }
-
+    @Transactional
     @DeleteMapping("/delete/{id}")
     public void deletar(@PathVariable Long id){
-        repositorio.deleteById(id);
+//        repositorio.deleteById(id);
+        var objeto=repositorio.getReferenceById(id);
+        System.out.println(objeto);
+        objeto.exclusaoLogica();
+
+
     }
 
     @Transactional
@@ -45,5 +56,20 @@ public class Controller {
         //repositorio.save(objetoPut);
         return new ObjetoDTO(objetoPut);
     }
+
+    @GetMapping("/orcamento")
+    public String orcamento(){
+        List<Objeto> produtos= repositorio.findAll();
+        var lista=produtos.stream().map(n->new Orcamento(n.getProduto(),n.getValor(),n.getData())).toList();
+        //System.out.println(lista);
+        int count=0;
+        for(int i=0;i<lista.size();i++){
+            count+=lista.get(i).valor;
+            System.out.println(count);
+        }
+        String mensagem="O orçamento total de seus produtos é de R$"+count+",00";
+        return mensagem;
+    }
+
 
 }
