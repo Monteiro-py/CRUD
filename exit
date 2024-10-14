@@ -1,0 +1,17 @@
+[33mcommit 07bc626c356f2af8821ac8304e7b62651d5d3469[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Matheus Monteiro <mathosmathe2002@gmail.com>
+Date:   Mon Oct 14 17:23:45 2024 -0300
+
+    adicionar tratamento de erros 500, 404 e 400.
+
+[33mcommit b3e512e8689f247ef6f56b81e98b582f4aef5dc2[m
+Author: Matheus Monteiro <mathosmathe2002@gmail.com>
+Date:   Sun Oct 13 12:53:32 2024 -0300
+
+    adcionar método HTTP delete e método HTTP get para retornar o  orçamento total ao body do Postman.
+
+[33mcommit efc00b3603877ebc55f13705c8c1518a15db802f[m
+Author: Matheus Monteiro <mathosmathe2002@gmail.com>
+Date:   Fri Oct 11 17:22:46 2024 -0300
+
+    first commit

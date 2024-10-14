@@ -1,14 +1,13 @@
 package br.com.gerenciador.objetoDTO;
 
 
-public record Orcamento {
-    String produto;
-    Double valor;
-    String data;
+import lombok.Getter;
 
-    public Double getValor() {
-        return valor;
-    }
+public class Orcamento {
+    private String produto;
+    @Getter
+    private Double valor;
+    private String data;
 
     public Orcamento(String produto, String valor, String data) {
     this.produto=produto;

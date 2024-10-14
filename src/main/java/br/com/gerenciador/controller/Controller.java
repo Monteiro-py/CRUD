@@ -4,6 +4,7 @@ import br.com.gerenciador.model.Objeto;
 import br.com.gerenciador.objetoDTO.ObjetoDTO;
 import br.com.gerenciador.objetoDTO.Orcamento;
 import br.com.gerenciador.service.Repository;
+import br.com.gerenciador.user.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -72,6 +73,7 @@ public class Controller {
         String mensagem="O orçamento total de seus produtos é de R$"+count+",00";
         return mensagem;
     }
+
 
 
 }
