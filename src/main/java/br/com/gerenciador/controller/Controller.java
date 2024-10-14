@@ -2,6 +2,7 @@ package br.com.gerenciador.controller;
 
 import br.com.gerenciador.model.Objeto;
 import br.com.gerenciador.objetoDTO.ObjetoDTO;
+import br.com.gerenciador.objetoDTO.Orcamento;
 import br.com.gerenciador.service.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -21,32 +23,32 @@ public class Controller {
 
     @Transactional
     @PostMapping
-    public ObjetoDTO cadastro(@RequestBody ObjetoDTO objetoDTO){
+    public ResponseEntity<ObjetoDTO> cadastro(@RequestBody ObjetoDTO objetoDTO, URI uri){
         Objeto objeto=new Objeto(objetoDTO);
         repositorio.save(objeto);
-        return objetoDTO;
+        return ResponseEntity.created(uri).body(objetoDTO);
     }
 
     @GetMapping
-    public Page<ObjetoDTO> obterBancoDeDados(Pageable page) {
+    public ResponseEntity<Page<ObjetoDTO>> obterBancoDeDados(Pageable page) {
         var pages= repositorio.findAllByAtivoTrue(page).map(ObjetoDTO::new);
         //return repositorio.findAll().stream().map(ObjetoDTO::new).toList();
-        return pages;
+        return ResponseEntity.ok(pages);
     }
     @Transactional
     @DeleteMapping("/delete/{id}")
-    public void deletar(@PathVariable Long id){
+    public ResponseEntity deletar(@PathVariable Long id){
 //        repositorio.deleteById(id);
         var objeto=repositorio.getReferenceById(id);
         System.out.println(objeto);
         objeto.exclusaoLogica();
-
+        return ResponseEntity.noContent().build();//notContent não constroi um objeto Response entity, logo precisamos chamr o .build()
 
     }
 
     @Transactional
     @PutMapping
-    public ObjetoDTO atualizar(@RequestBody ObjetoDTO objetoDTO){
+    public ResponseEntity<ObjetoDTO> atualizar(@RequestBody ObjetoDTO objetoDTO){
         Objeto objetoPut=repositorio.getReferenceById(objetoDTO.id());
         System.out.println(objetoPut);
         //        Objeto objeto= new Objeto(objetoDTO);
@@ -54,7 +56,7 @@ public class Controller {
         objetoPut.atualizar(objetoDTO);
         System.out.println(objetoDTO);
         //repositorio.save(objetoPut);
-        return new ObjetoDTO(objetoPut);
+        return ResponseEntity.ok(new ObjetoDTO(objetoPut));
     }
 
     @GetMapping("/orcamento")
@@ -64,7 +66,7 @@ public class Controller {
         //System.out.println(lista);
         int count=0;
         for(int i=0;i<lista.size();i++){
-            count+=lista.get(i).valor;
+            count+=lista.get(i).getValor();
             System.out.println(count);
         }
         String mensagem="O orçamento total de seus produtos é de R$"+count+",00";

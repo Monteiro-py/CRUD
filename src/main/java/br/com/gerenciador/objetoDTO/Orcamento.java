@@ -1,14 +1,14 @@
-package br.com.gerenciador.controller;
-
-import br.com.gerenciador.model.Objeto;
-
-import java.util.List;
+package br.com.gerenciador.objetoDTO;
 
 
-public class Orcamento {
+public record Orcamento {
     String produto;
     Double valor;
     String data;
+
+    public Double getValor() {
+        return valor;
+    }
 
     public Orcamento(String produto, String valor, String data) {
     this.produto=produto;
